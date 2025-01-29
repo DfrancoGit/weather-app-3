@@ -1,3 +1,25 @@
+:root {
+  /* Light Mode Colors */
+  --background-color: #ffffff; /* Soft white background for light mode */
+  --text-color: #2c2c2c; /* Dark Charcoal */
+  --header-border-color: #d1d1d1; /* Light Gray */
+  --label-color: #6a5acd; /* Slate Blue */
+  --day-card-border-color: #d1d1d1; /* Light Gray */
+  --hour-row-bg-color: #8a9eff; /* Light Blue */
+  --hour-row-alt-bg-color: #6a5acd; /* Slate Blue */
+}
+
+.dark-mode {
+  /* Dark Mode Colors */
+  --background-color: #1e1e1e; /* Dark Gray */
+  --text-color: #e0e0e0; /* Light Gray */
+  --header-border-color: #444444; /* Medium Gray */
+  --label-color: #8a9eff; /* Light Blue */
+  --day-card-border-color: #444444; /* Medium Gray */
+  --hour-row-bg-color: #2a2a2a; /* Darker Gray */
+  --hour-row-alt-bg-color: #6a5acd; /* Slate Blue */
+}
+
 *,
 *::before,
 *::after {
@@ -6,13 +28,24 @@
 
 body {
   margin: 0;
-  background-color: hsl(200, 100%, 85%);
-  color: hsl(200, 100%, 10%);
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-family: sans-serif;
 }
 
+#darkModeToggle {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: var(--text-color);
+}
+
 .blurred {
-  filter: blur(3px);
+  filter: blur(1.5px);
   overflow: hidden;
 }
 
@@ -28,7 +61,7 @@ body {
   justify-content: center;
   margin: 0.5rem;
   padding: 0.5rem;
-  border-right: 2px solid hsl(200, 100%, 10%);
+  border-right: 2px solid var(--header-border-color);
 }
 
 .weather-icon {
@@ -66,7 +99,7 @@ body {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 0.6rem;
-  color: hsl(200, 100%, 20%);
+  color: var(--label-color);
 }
 
 .value-sub-info {
@@ -86,14 +119,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid hsl(200, 100%, 10%);
+  border: 1px solid var(--day-card-border-color);
   border-radius: 0.25rem;
   padding: 0.25rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.day-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .day-card-day {
   font-size: 0.75rem;
-  color: hsl(200, 100%, 20%);
+  color: var(--label-color);
   margin-top: 0.5rem;
 }
 
@@ -101,16 +140,98 @@ body {
   width: 100%;
   text-align: center;
   border-spacing: 0;
+  padding: 10px 40px;
 }
 
 .hour-row {
-  background-color: hsl(200, 60%, 75%);
+  background-color: var(--hour-row-bg-color);
 }
 
 .hour-row:nth-child(2n) {
-  background-color: hsl(200, 60%, 70%);
+  background-color: var(--hour-row-alt-bg-color);
+  color: var(--text-color);
+}
+
+.hour-row:nth-child(2n) .label {
+  color: var(--text-color);
 }
 
 .hour-row > td {
   padding: 0.25rem 0.5rem;
+}
+
+.search-container {
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+.search-container h1 {
+  font-size: 4rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+}
+
+/* .search-input-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input-btn input {
+  width: 70%;
+  min-width: 400px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.search-input-btn button {
+  min-width: 100px;
+  height: 40px;
+  border-radius: 5px;
+} */
+
+/* INPUT */
+
+.search-input-btn {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+
+#locationInput {
+  padding: 10px;
+  border: 1px solid var(--header-border-color);
+  border-radius: 5px;
+  font-size: 16px;
+  flex: 1;
+  transition: border-color 0.3s;
+}
+
+#locationInput:focus {
+  border-color: var(--label-color);
+  outline: none;
+}
+
+/* BUTTON */
+
+#searchButton {
+  padding: 10px 20px;
+  background-color: var(--label-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#searchButton:hover {
+  background-color: #5a4dbf;
+  transform: scale(1.05);
+}
+
+#searchButton:active {
+  transform: scale(0.95);
 }

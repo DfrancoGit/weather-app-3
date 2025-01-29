@@ -5,15 +5,25 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/styles.css" />
+    <script src="https://kit.fontawesome.com/9a5aa81fd3.js" crossorigin="anonymous"></script>
     <title>Weather App</title>
   </head>
-  <body class="blurred">
-    <header class="header">
+  <body>
+    <section class="search-container">
+      <h1 id="heading-name">Weather App</h1>
+      <div class="search-input-btn">
+        <input type="text" id="locationInput" placeholder="Enter a city" />
+        <button id="searchButton">Get Weather</button>
+      </div>
+      <button id="darkModeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-sun dark-mode" id="iconDM"></i>
+      </button>
+    </section>
+
+    <header class="header blurred" id="header-section">
       <div class="header-left">
         <img class="weather-icon large" src="./icons/sun.svg" data-current-icon />
-        <div class="header-current-temp">
-          <span data-current-temp> 31 </span> &deg;
-        </div>
+        <div class="header-current-temp"><span data-current-temp> 31 </span> &deg;</div>
       </div>
       <div class="header-right">
         <div class="info-group">
@@ -26,9 +36,7 @@
         </div>
         <div class="info-group">
           <div class="label">Wind</div>
-          <div>
-            <span data-current-wind>9</span><span class="value-sub-info">mph</span>
-          </div>
+          <div><span data-current-wind>9</span><span class="value-sub-info">mph</span></div>
         </div>
         <div class="info-group">
           <div class="label">Low</div>
@@ -40,15 +48,12 @@
         </div>
         <div class="info-group">
           <div class="label">Precip</div>
-          <div>
-            <span data-current-precip>0.1</span
-            ><span class="value-sub-info">in</span>
-          </div>
+          <div><span data-current-precip>0.1</span><span class="value-sub-info">in</span></div>
         </div>
       </div>
     </header>
 
-    <section class="day-section" data-day-section>
+    <section class="day-section blurred" id="day-section" data-day-section>
       <div class="day-card">
         <img src="./icons/cloud.svg" class="weather-icon" />
         <div class="day-card-day">Monday</div>
@@ -86,7 +91,7 @@
       </div>
     </section>
 
-    <table class="hour-section">
+    <table class="hour-section blurred" id="table-section">
       <tbody data-hour-section>
         <tr class="hour-row">
           <td>
@@ -411,9 +416,7 @@
         <td>
           <div class="info-group">
             <div class="label">Precip</div>
-            <div>
-              <span data-precip></span><span class="value-sub-info">in</span>
-            </div>
+            <div><span data-precip></span><span class="value-sub-info">in</span></div>
           </div>
         </td>
       </tr>

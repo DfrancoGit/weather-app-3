@@ -2,18 +2,60 @@ import "./styles.css";
 import { getWeather } from "./weather.js";
 import { ICON_MAP } from "./iconMap.js";
 
-getWeather(10, 10, Intl.DateTimeFormat().resolvedOptions().timeZone)
-  .then(renderWeather)
-  .catch((e) => {
-    console.error(e);
-    // alert("Error getting weather.");
-  });
+const headerSection = document.getElementById("header-section");
+const daySection = document.getElementById("day-section");
+const tableSection = document.getElementById("table-section");
+
+// Geocoding
+
+const geocodingApiKey = "e2c698c42e064432ae0ae88303b47af0";
+
+document.getElementById("searchButton").addEventListener("click", convertWeatherData);
+
+function convertWeatherData() {
+  const location = document.getElementById("locationInput").value;
+
+  if (location) {
+    fetch(
+      `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
+        location
+      )}&key=${geocodingApiKey}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        const lat = data.results[0].geometry.lat;
+        const lon = data.results[0].geometry.lng;
+        const timezoneResult = data.results[0].annotations.timezone.name;
+        getWeather(lat, lon, timezoneResult)
+          .then(renderWeather)
+          .catch((e) => console.error(e));
+      });
+  }
+}
+
+// Get weather
+
+// getWeather(10, 10, Intl.DateTimeFormat().resolvedOptions().timeZone)
+//   .then(renderWeather)
+//   .catch((e) => {
+//     console.error(e);
+//     // alert("Error getting weather.");
+//   });
 
 function renderWeather({ current, daily, hourly }) {
   renderCurrentWeather(current);
   renderDailyWeather(daily);
   renderHourlyWeather(hourly);
-  document.body.classList.remove("blurred");
+
+  headerSection.classList.remove("blurred");
+  daySection.classList.remove("blurred");
+  tableSection.classList.remove("blurred");
+
+  document.getElementById("heading-name").innerHTML = `${
+    document.getElementById("locationInput").value
+  }`;
+  document.getElementById("locationInput").value = "";
 }
 
 function setValue(selector, value, { parent = document } = {}) {
@@ -52,7 +94,7 @@ function renderDailyWeather(daily) {
   });
 }
 
-const HOUR_FORMATTER = new Intl.DateTimeFormat(undefined, { hour: "numeric" });
+const HOUR_FORMATTER = new Intl.DateTimeFormat(undefined, { hour: "numeric", hour12: true });
 const hourlySection = document.querySelector("[data-hour-section]");
 const hourRowTemplate = document.getElementById("hour-row-template");
 
@@ -63,10 +105,26 @@ function renderHourlyWeather(hourly) {
     setValue("temp", hour.temp, { parent: element });
     setValue("fl-temp", hour.feelsLike, { parent: element });
     setValue("wind", hour.windSpeed, { parent: element });
-    // setValue("precip", hour.precip, { parent: element });
+    setValue("precip", hour.precip, { parent: element });
     setValue("day", DAY_FORMATTER.format(hour.timestamp), { parent: element });
     setValue("time", HOUR_FORMATTER.format(hour.timestamp), { parent: element });
     element.querySelector("[data-icon]").src = getIconUrl(hour.iconCode);
     hourlySection.append(element);
   });
+}
+
+// DARKMODE
+
+document.getElementById("darkModeToggle").addEventListener("click", toggleDarkMode);
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  const iconDM = document.getElementById("iconDM");
+  if (document.body.classList.contains("dark-mode")) {
+    iconDM.classList.remove("fa-sun");
+    iconDM.classList.add("fa-moon");
+  } else {
+    iconDM.classList.remove("fa-moon");
+    iconDM.classList.add("fa-sun");
+  }
 }
